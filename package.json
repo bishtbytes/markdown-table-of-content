@@ -1,0 +1,40 @@
+{
+  "name": "react-markdown-table-of-content",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bishtbytes/react-markdown-table-of-content.git"
+  },
+  "keywords": [
+    "react",
+    "markdown",
+    "toc",
+    "table of contents",
+    "typescript"
+  ],
+  "author": "Bisht Bytes <bishtbytes@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bishtbytes/react-markdown-table-of-content/issues"
+  },
+  "homepage": "https://github.com/bishtbytes/react-markdown-table-of-content#readme",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
+    "build:esm": "tsc --module ESNext --outDir dist/esm",
+    "publish": "npm publish --access public"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/react": "^18.3.4",
+    "typescript": "^5.0.0"
+  }
+}
