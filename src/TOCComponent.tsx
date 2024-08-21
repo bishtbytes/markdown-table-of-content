@@ -2,15 +2,15 @@ import React from "react";
 import { buildTOC, extractHeadings } from "./TOCHelpers";
 
 interface TOCComponentProps {
-  markdownContent: string;
+  markdownText: string;
   outputFormat?: "markdown" | "react-dom";
 }
 
 export function TOCComponent({
-  markdownContent,
+  markdownText,
   outputFormat = "markdown",
 }: TOCComponentProps) {
-  const headings = extractHeadings(markdownContent);
+  const headings = extractHeadings(markdownText);
   const toc = buildTOC(headings, outputFormat);
 
   return (
