@@ -9,13 +9,13 @@ npm install react-markdown-table-of-content
 ### Sample Usage
 
 ```tsx
-<TOCComponent markdownText={markdownText} outputFormat="markdown" />
+<TableOfContent markdownText={markdownText} />
 ```
 
 OR
 
 ```tsx
-<TOCComponent markdownText={markdownText} outputFormat="react-dom" />
+<div className="content">{getTocMarkdownText(markdownText)}</div>
 ```
 
 NOTE: This package does not work for markdown containing nested markdown content.
@@ -25,6 +25,8 @@ NOTE: This package does not work for markdown containing nested markdown content
 Consider we have the following markdown
 
 ```tsx
+import { TableOfContent, getTocMarkdownText } from "react-markdown-table-of-content";
+
 const markdownText = `
 # Title of the Document
 
@@ -45,16 +47,21 @@ Additional content.
 Details about Subsection 2.
 `;
 
-const App: React.FC = () => {
+const TocWithinReactComponent: React.FC = () => {
   return (
     <div className="App">
       <h1>Table of Contents Example</h1>
-      <TOCComponent markdownText={markdownText} outputFormat="react-dom" />
+      <TableOfContent markdownText={markdownText} />
     </div>
   );
 };
 
-export default App;
+const TocTextUsage: React.FC = ({ article }: { article: Article }) => {
+  const articleMarkdown = article.content;
+  const articleTableOfContent = getTocMarkdownText(markdownText);
+  const content = articleTableOfContent + "\n\n" + articleMarkdown;
+  return <Markdown className="markdown-preview">{content}</Markdown>;
+};
 ```
 
 ### Output - Markdown Format
@@ -62,7 +69,7 @@ export default App;
 To get markdown string format as the output:
 
 ```tsx
-<TOCComponent markdownText={markdownText} outputFormat="markdown" />
+<div className="content">{getTocMarkdownText(markdownText)}</div>
 ```
 
 This will result in:
@@ -80,7 +87,7 @@ This will result in:
 To get React DOM elements as the output:
 
 ```tsx
-<TOCComponent markdownText={markdownText} outputFormat="react-dom" />
+<TableOfContent markdownText={markdownText} />
 ```
 
 This will result in:

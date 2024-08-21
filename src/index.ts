@@ -1,1 +1,1 @@
-export { TOCComponent } from "./TOCComponent";
+export { TableOfContent, getTocMarkdownText } from "./TableOfContent";
