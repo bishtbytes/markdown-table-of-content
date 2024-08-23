@@ -18,7 +18,7 @@ OR
 <div className="content">{getTocMarkdownText(markdownText)}</div>
 ```
 
-NOTE: This package does not work for markdown containing nested markdown content.
+NOTE: This package also works for markdown containing nested markdown content.
 
 ## Example
 

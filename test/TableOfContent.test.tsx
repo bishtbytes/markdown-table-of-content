@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import React from "react";
-import { extractHeadings, getTocMarkdownText, TableOfContent } from "../src/TableOfContent";
+import { extractHeadings, getTocMarkdownText, Heading, TableOfContent } from "../src/TableOfContent";
 
 describe("extractHeadings", () => {
   test("should extract headings with correct levels and slugs", () => {
@@ -11,7 +11,7 @@ describe("extractHeadings", () => {
       #### Heading 4
     `.trim();
 
-    const expectedHeadings = [
+    const expectedHeadings: Heading[] = [
       { level: 1, title: "Heading 1", slug: "heading-1" },
       { level: 2, title: "Heading 2", slug: "heading-2" },
       { level: 3, title: "Heading 3", slug: "heading-3" },
@@ -27,8 +27,8 @@ describe("extractHeadings", () => {
       # Heading with special characters! @#$%
     `;
 
-    const expectedHeadings = [
-      { level: 1, title: "Heading with special characters! @#$%", slug: "heading-with-special-characters!-@#$%" },
+    const expectedHeadings: Heading[] = [
+      { level: 1, title: "Heading with special characters! @#$%", slug: "heading-with-special-characters" },
     ];
 
     const headings = extractHeadings(markdown);
@@ -43,6 +43,109 @@ describe("extractHeadings", () => {
 
     const headings = extractHeadings(markdown);
     expect(headings).toEqual([]);
+  });
+
+  test("should extract headings correctly from a markdown string", () => {
+    const markdown = `
+  # Heading 1
+  ## Heading 2
+  
+  Some text here.
+  
+  ### Heading 3
+  
+  \`\`\`markdown
+  # This is a heading inside a code block
+  \`\`\`
+  
+  Some more text.
+  
+  ## Another Heading 2
+  
+  \`\`\`
+  ## This is another heading inside a code block
+  \`\`\`
+  
+  # Final Heading 1
+      `;
+
+    const expectedHeadings: Heading[] = [
+      { level: 1, title: "Heading 1", slug: "heading-1" },
+      { level: 2, title: "Heading 2", slug: "heading-2" },
+      { level: 3, title: "Heading 3", slug: "heading-3" },
+      { level: 2, title: "Another Heading 2", slug: "another-heading-2" },
+      { level: 1, title: "Final Heading 1", slug: "final-heading-1" },
+    ];
+
+    const result = extractHeadings(markdown);
+
+    console.log(result);
+
+    expect(result).toEqual(expectedHeadings);
+  });
+
+  test("should return an empty array when there are no headings", () => {
+    const markdown = `
+  This is some text.
+  
+  \`\`\`markdown
+  # This is a heading inside a code block
+  \`\`\`
+  
+  More text.
+      `;
+
+    const result = extractHeadings(markdown);
+
+    expect(result).toEqual([]);
+  });
+
+  test("should handle markdown with only code blocks", () => {
+    const markdown = `
+  \`\`\`
+  # Heading inside code block 1
+  \`\`\`
+  
+  \`\`\`markdown
+  ## Heading inside code block 2
+  \`\`\`
+      `;
+
+    const result = extractHeadings(markdown);
+
+    expect(result).toEqual([]);
+  });
+
+  test("should extract headings correctly with complex markdown content", () => {
+    const markdown = `
+  # Main Heading
+  
+  \`\`\`markdown
+  ## This heading is inside a code block and should be ignored
+  \`\`\`
+  
+  ## Another Heading
+  
+  \`\`\`
+  # Another heading inside a regular code block
+  \`\`\`
+  
+  ### Subheading
+  
+  \`\`\`
+  Some code with ## markdown inside
+  \`\`\`
+      `;
+
+    const expectedHeadings: Heading[] = [
+      { level: 1, title: "Main Heading", slug: "main-heading" },
+      { level: 2, title: "Another Heading", slug: "another-heading" },
+      { level: 3, title: "Subheading", slug: "subheading" },
+    ];
+
+    const result = extractHeadings(markdown);
+
+    expect(result).toEqual(expectedHeadings);
   });
 });
 

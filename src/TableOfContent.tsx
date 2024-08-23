@@ -1,6 +1,7 @@
 import React from "react";
+import uslug from "uslug";
 
-interface Heading {
+export interface Heading {
   level: number;
   title: string;
   slug: string;
@@ -13,7 +14,7 @@ export function extractHeadings(markdown: string): Heading[] {
 
   lines.forEach((line) => {
     // Check for the beginning or end of a code block
-    if (/^```/.test(line)) {
+    if (/^```/.test(line.trim())) {
       insideCodeBlock = !insideCodeBlock;
       return; // Skip this line
     }
@@ -30,7 +31,7 @@ export function extractHeadings(markdown: string): Heading[] {
     if (headingMatch) {
       const level = headingMatch[0].length - 1; // Number of '#' characters indicates the heading level
       const title = trimmedLine.slice(headingMatch[0].length).trim(); // The text of the heading
-      const slug = title.toLowerCase().replace(/\s+/g, "-"); // Generate a slug
+      const slug = uslug(title); // Generate a slug
 
       headings.push({ level, title, slug });
     }
