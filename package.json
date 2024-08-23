@@ -1,9 +1,9 @@
 {
   "name": "react-markdown-table-of-content",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bishtbytes/react-markdown-table-of-content.git"
+    "url": "git+https://github.com/bishtbytes/react-markdown-table-of-content.git"
   },
   "keywords": [
     "react",
