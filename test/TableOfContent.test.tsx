@@ -79,8 +79,6 @@ describe("extractHeadings", () => {
 
     const result = extractHeadings(markdown);
 
-    console.log(result);
-
     expect(result).toEqual(expectedHeadings);
   });
 
