@@ -7,19 +7,34 @@ interface Heading {
 }
 
 export function extractHeadings(markdown: string): Heading[] {
-  const headingRegex = /^(#{1,6})\s+(.*)$/gm;
+  const lines = markdown.split("\n");
   const headings: Heading[] = [];
-  let match: RegExpExecArray | null;
+  let insideCodeBlock = false;
 
-  while ((match = headingRegex.exec(markdown)) !== null) {
-    const level = match[1].length; // Number of '#' characters indicates the heading level
-    const title = match[2].trim(); // The text of the heading
-    const slug = title
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w\-]+/g, ""); // Generate a slug
-    headings.push({ level, title, slug });
-  }
+  lines.forEach((line) => {
+    // Check for the beginning or end of a code block
+    if (/^```/.test(line)) {
+      insideCodeBlock = !insideCodeBlock;
+      return; // Skip this line
+    }
+
+    // If inside a code block, skip heading extraction
+    if (insideCodeBlock) {
+      return;
+    }
+
+    // Trim the line and check for headings
+    const trimmedLine = line.trim();
+    const headingMatch = /^#+\s+/.exec(trimmedLine);
+
+    if (headingMatch) {
+      const level = headingMatch[0].length - 1; // Number of '#' characters indicates the heading level
+      const title = trimmedLine.slice(headingMatch[0].length).trim(); // The text of the heading
+      const slug = title.toLowerCase().replace(/\s+/g, "-"); // Generate a slug
+
+      headings.push({ level, title, slug });
+    }
+  });
 
   return headings;
 }
