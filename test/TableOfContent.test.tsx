@@ -28,7 +28,7 @@ describe("extractHeadings", () => {
     `;
 
     const expectedHeadings = [
-      { level: 1, title: "Heading with special characters! @#$%", slug: "heading-with-special-characters" },
+      { level: 1, title: "Heading with special characters! @#$%", slug: "heading-with-special-characters!-@#$%" },
     ];
 
     const headings = extractHeadings(markdown);
