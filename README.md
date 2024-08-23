@@ -3,7 +3,7 @@ A React component for generating a Table of Contents (TOC) from a Markdown strin
 ## Installation
 
 ```bash
-npm install react-markdown-table-of-content
+npm install @bishtbytes/markdown-table-of-content
 ```
 
 ### Sample Usage
@@ -25,7 +25,7 @@ NOTE: This package does not work for markdown containing nested markdown content
 Consider we have the following markdown
 
 ```tsx
-import { TableOfContent, getTocMarkdownText } from "react-markdown-table-of-content";
+import { TableOfContent, getTocMarkdownText } from "@bishtbytes/markdown-table-of-content";
 
 const markdownText = `
 # Title of the Document
