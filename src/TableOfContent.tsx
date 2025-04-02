@@ -13,26 +13,19 @@ export function extractHeadings(markdown: string): Heading[] {
   let insideCodeBlock = false;
 
   lines.forEach((line) => {
-    // Check for the beginning or end of a code block
     if (/^```/.test(line.trim())) {
       insideCodeBlock = !insideCodeBlock;
-      return; // Skip this line
-    }
-
-    // If inside a code block, skip heading extraction
-    if (insideCodeBlock) {
       return;
     }
+    if (insideCodeBlock) return;
 
-    // Trim the line and check for headings
     const trimmedLine = line.trim();
     const headingMatch = /^#+\s+/.exec(trimmedLine);
 
     if (headingMatch) {
-      const level = headingMatch[0].length - 1; // Number of '#' characters indicates the heading level
-      const title = trimmedLine.slice(headingMatch[0].length).trim(); // The text of the heading
-      const slug = uslug(title); // Generate a slug
-
+      const level = headingMatch[0].length - 1;
+      const title = trimmedLine.slice(headingMatch[0].length).trim();
+      const slug = uslug(title);
       headings.push({ level, title, slug });
     }
   });
@@ -41,11 +34,14 @@ export function extractHeadings(markdown: string): Heading[] {
 }
 
 export function TableOfContent({ markdownText }: { markdownText: string }) {
-  const headings = extractHeadings(markdownText);
+  const headings = React.useMemo(() => extractHeadings(markdownText), [markdownText]);
   return (
     <ul>
-      {headings.map((heading, index) => (
-        <li key={index} style={{ marginLeft: `${(heading.level - 1) * 20}px` }}>
+      {headings.map((heading) => (
+        <li
+          key={heading.slug} // Use slug instead of index for stable keys
+          style={{ marginLeft: `${(heading.level - 1) * 20}px` }} // Fixed syntax
+        >
           <a href={`#${heading.slug}`}>{heading.title}</a>
         </li>
       ))}
