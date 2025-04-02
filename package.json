@@ -1,6 +1,6 @@
 {
   "name": "markdown-table-of-content",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bishtbytes/markdown-table-of-content.git"
@@ -26,11 +26,11 @@
     "build": "npm run build:cjs && npm run build:esm",
     "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
     "build:esm": "tsc --module ESNext --outDir dist/esm",
-    "release": "npm run test && npm publish --access public",
+    "release": "npm run build && npm run test && npm publish --access public",
     "test": "jest"
   },
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0"
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "files": [
     "dist"
